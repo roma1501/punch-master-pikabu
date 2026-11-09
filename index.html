@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0b0e17">
+<meta name="format-detection" content="telephone=no">
+<title>Мастер удара</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://games.pikabu.ru/sdk/sdk.js"></script>
+    <script src="./pikabu-bridge.js"></script>
+<!-- three.js r160 (MIT) is bundled into js/game.min.js -->
+</head>
+<body>
+
+<!-- one icon sprite for the whole interface: neon line art on dark metal -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-glove" viewBox="0 0 48 48"><rect x="9" y="12" width="26" height="22" rx="6" fill="#39e6ff" stroke="#0b0e17" stroke-width="3"/><rect x="33" y="16" width="8" height="12" rx="3" fill="#2a8fa8" stroke="#0b0e17" stroke-width="3"/><path d="M14 12v-3M20 12v-3M26 12v-3M32 12v-3" stroke="#0b0e17" stroke-width="3" stroke-linecap="round"/><rect x="11" y="34" width="22" height="8" rx="2" fill="#2b3446" stroke="#0b0e17" stroke-width="3"/><path d="M13 20h18" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/></symbol>
+    <symbol id="i-wheel" viewBox="0 0 48 48"><circle cx="24" cy="25" r="18" fill="#2b3446" stroke="#0b0e17" stroke-width="3"/><path d="M24 25V7A18 18 0 0 1 41 19zM24 25l-15 10A18 18 0 0 1 6.5 21z" fill="#ff3d7a"/><path d="M24 25l15 10A18 18 0 0 1 24 43z" fill="#39e6ff"/><path d="M24 25L9 35A18 18 0 0 0 24 43z" fill="#ffb02e"/><circle cx="24" cy="25" r="18" fill="none" stroke="#0b0e17" stroke-width="3"/><circle cx="24" cy="25" r="4" fill="#fff" stroke="#0b0e17" stroke-width="3"/><path d="M19 2h10l-5 8z" fill="#39ff88" stroke="#0b0e17" stroke-width="2.5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-gift" viewBox="0 0 48 48"><rect x="7" y="18" width="34" height="10" rx="2" fill="#ff3d7a" stroke="#0b0e17" stroke-width="3"/><rect x="10" y="28" width="28" height="15" rx="2" fill="#c01f55" stroke="#0b0e17" stroke-width="3"/><rect x="21" y="18" width="6" height="25" fill="#ffb02e" stroke="#0b0e17" stroke-width="3"/><path d="M24 18c-3-8-12-10-12-4 0 4 7 4 12 4zm0 0c3-8 12-10 12-4 0 4-7 4-12 4z" fill="#ffb02e" stroke="#0b0e17" stroke-width="3" stroke-linejoin="round"/></symbol>
+    <symbol id="i-map" viewBox="0 0 48 48"><rect x="6" y="8" width="36" height="32" rx="4" fill="#2b3446" stroke="#0b0e17" stroke-width="3"/><rect x="11" y="13" width="7" height="7" rx="1" fill="#39ff88"/><rect x="21" y="13" width="7" height="7" rx="1" fill="#39e6ff"/><rect x="31" y="13" width="7" height="7" rx="1" fill="#ffb02e"/><rect x="11" y="24" width="7" height="7" rx="1" fill="#39e6ff"/><rect x="21" y="24" width="7" height="7" rx="1" fill="#ff3d7a"/><path d="M31 27h7M31 32h7" stroke="#8fa0c0" stroke-width="3" stroke-linecap="round"/></symbol>
+    <symbol id="i-cup" viewBox="0 0 48 48"><path d="M14 6h20v12c0 7-4 12-10 12S14 25 14 18z" fill="#ffb02e" stroke="#0b0e17" stroke-width="3" stroke-linejoin="round"/><path d="M14 10H7c0 7 3 11 8 11M34 10h7c0 7-3 11-8 11" fill="none" stroke="#0b0e17" stroke-width="3"/><path d="M21 30h6v6h-6z" fill="#ffb02e" stroke="#0b0e17" stroke-width="3"/><rect x="13" y="36" width="22" height="7" rx="2" fill="#39e6ff" stroke="#0b0e17" stroke-width="3"/><path d="M19 11l2 5" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".7"/></symbol>
+    <symbol id="i-gear" viewBox="0 0 48 48"><path d="M20 4h8l1 6 5 2 5-4 6 6-4 5 2 5 6 1v8l-6 1-2 5 4 5-6 6-5-4-5 2-1 6h-8l-1-6-5-2-5 4-6-6 4-5-2-5-6-1v-8l6-1 2-5-4-5 6-6 5 4 5-2z" fill="#9aa8c7" stroke="#0b0e17" stroke-width="3" stroke-linejoin="round"/><circle cx="24" cy="24" r="7" fill="#39e6ff" stroke="#0b0e17" stroke-width="3"/></symbol>
+    <symbol id="i-help" viewBox="0 0 48 48"><circle cx="24" cy="24" r="19" fill="#8a66d8" stroke="#0b0e17" stroke-width="3"/><path d="M18 18c0-4 3-6 6-6s6 2 6 6c0 5-6 5-6 10" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round"/><circle cx="24" cy="35" r="2.6" fill="#fff"/></symbol>
+    <symbol id="i-coin" viewBox="0 0 48 48"><circle cx="24" cy="24" r="19" fill="#ffb02e" stroke="#0b0e17" stroke-width="3.5"/><circle cx="24" cy="24" r="12.5" fill="none" stroke="#b36b00" stroke-width="3"/><path d="M20 17v14l9-7z" fill="#7a4400"/><path d="M14 16a12 12 0 0 1 8-6" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none" opacity=".8"/></symbol>
+    <symbol id="i-star" viewBox="0 0 48 48"><path d="M24 4l6 13 14 2-10 10 2 14-12-7-12 7 2-14L4 19l14-2z" fill="#ffd23f" stroke="#0b0e17" stroke-width="3" stroke-linejoin="round"/></symbol>
+    <symbol id="i-pause" viewBox="0 0 48 48"><rect x="12" y="9" width="9" height="30" rx="2.5" fill="#e8f0ff" stroke="#0b0e17" stroke-width="3"/><rect x="27" y="9" width="9" height="30" rx="2.5" fill="#e8f0ff" stroke="#0b0e17" stroke-width="3"/></symbol>
+    <symbol id="i-fist" viewBox="0 0 48 48"><rect x="10" y="14" width="26" height="22" rx="5" fill="#39e6ff" stroke="#0b0e17" stroke-width="3.5"/><path d="M18 14v8M25 14v8M32 15v7" stroke="#0b0e17" stroke-width="3"/><path d="M36 20h6M36 28h6" stroke="#39e6ff" stroke-width="3" stroke-linecap="round"/></symbol>
+    <symbol id="i-clock" viewBox="0 0 48 48"><circle cx="24" cy="26" r="17" fill="#e8f0ff" stroke="#0b0e17" stroke-width="3.5"/><path d="M24 16v10l7 5" fill="none" stroke="#ff3d7a" stroke-width="3.5" stroke-linecap="round"/><path d="M19 4h10M24 4v5" stroke="#e8f0ff" stroke-width="3.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-ad" viewBox="0 0 48 48"><rect x="5" y="10" width="38" height="28" rx="5" fill="#e8f0ff" stroke="#0b0e17" stroke-width="3.5"/><path d="M20 17v14l12-7z" fill="#ff3d7a" stroke="#0b0e17" stroke-width="2.5" stroke-linejoin="round"/><path d="M16 43h16" stroke="#e8f0ff" stroke-width="3.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 48 48"><path d="M15 21v-6a9 9 0 0 1 18 0v6" fill="none" stroke="#8fa0c0" stroke-width="4"/><rect x="10" y="21" width="28" height="22" rx="4" fill="#5a6580" stroke="#0b0e17" stroke-width="3.5"/><circle cx="24" cy="31" r="3.5" fill="#0b0e17"/></symbol>
+    <symbol id="i-close" viewBox="0 0 48 48"><path d="M13 13l22 22M35 13L13 35" stroke="#e8f0ff" stroke-width="6" stroke-linecap="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 48 48"><circle cx="24" cy="24" r="19" fill="#39ff88" stroke="#0b0e17" stroke-width="3"/><path d="M15 25l6 6 12-13" fill="none" stroke="#0b0e17" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-sound" viewBox="0 0 48 48"><path d="M8 18h8l11-9v30l-11-9H8z" fill="#e8f0ff" stroke="#0b0e17" stroke-width="3.5" stroke-linejoin="round"/><path d="M33 17c3 4 3 10 0 14M37 12c6 7 6 17 0 24" fill="none" stroke="#e8f0ff" stroke-width="3.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-music" viewBox="0 0 48 48"><path d="M18 34V12l20-4v22" fill="none" stroke="#0b0e17" stroke-width="7" stroke-linejoin="round"/><path d="M18 34V12l20-4v22" fill="none" stroke="#e8f0ff" stroke-width="3.5" stroke-linejoin="round"/><ellipse cx="13" cy="35" rx="6" ry="5" fill="#39e6ff" stroke="#0b0e17" stroke-width="3"/><ellipse cx="33" cy="31" rx="6" ry="5" fill="#39e6ff" stroke="#0b0e17" stroke-width="3"/></symbol>
+    <symbol id="i-hand" viewBox="0 0 48 48"><path d="M18 26V8a4 4 0 0 1 8 0v13l1-1a4 4 0 0 1 7 2v1a4 4 0 0 1 7 2v8c0 8-5 13-13 13h-3c-5 0-8-3-11-7l-6-8a4 4 0 0 1 6-5z" fill="#e8f0ff" stroke="#0b0e17" stroke-width="3.5" stroke-linejoin="round"/></symbol>
+    <symbol id="i-bolt" viewBox="0 0 48 48"><path d="M28 3L10 27h11l-3 18 20-26H27z" fill="#ffd23f" stroke="#0b0e17" stroke-width="3" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<div id="app">
+  <canvas id="scene"></canvas>
+  <div id="vignette"></div>
+  <div id="scanlines"></div>
+
+  <!-- ===================== LOADER ===================== -->
+  <div id="loader" class="screen show">
+    <div class="loader-inner">
+      <div class="marquee">
+        <span class="mq-top">МАСТЕР</span>
+        <span class="mq-bot">УДАРА</span>
+      </div>
+      <svg class="ic loader-glove"><use href="#i-glove"/></svg>
+      <div class="bar"><div class="bar-fill" id="loadBar"></div></div>
+      <div class="loader-text" id="loadText">&nbsp;</div>
+    </div>
+  </div>
+
+  <!-- ===================== HUD ===================== -->
+  <div id="hud" class="hide">
+    <div class="hud-top" id="hudTop">
+      <div class="lcd lvl-plate"><small data-i18n="lvlShort">LVL</small><b id="hudLevel">1</b></div>
+      <div class="lcd goal-plate">
+        <div class="goal-line" id="hudGoal"></div>
+        <div class="seg-bar"><div class="seg-fill" id="hudProgress"></div></div>
+        <div class="loc-line" id="hudLoc"></div>
+      </div>
+      <div class="lcd coin-plate" id="hudCoinsChip"><svg class="ic"><use href="#i-coin"/></svg><b id="hudCoins">0</b></div>
+    </div>
+    <div class="hint-bubble hide" id="hintTap"></div>
+    <div class="combo-plate hide" id="hudCombo">
+      <small data-i18n="comboWord">COMBO</small><b id="comboMult">x2</b>
+      <div class="combo-bar"><i id="comboBar"></i></div>
+    </div>
+    <div class="hud-bottom" id="hudBottom">
+      <div class="lcd stat-pill" id="pillPunches"><svg class="ic"><use href="#i-fist"/></svg><b id="hudPunches">10</b></div>
+      <div class="lcd stat-pill hide" id="pillTimer"><svg class="ic"><use href="#i-clock"/></svg><b id="hudTimer">30</b></div>
+      <div class="charge-hint" id="chargeHint"><svg class="ic"><use href="#i-bolt"/></svg><span data-i18n="holdHint">HOLD = CHARGE</span></div>
+      <button class="round-btn" id="btnPause" aria-label="pause"><svg class="ic"><use href="#i-pause"/></svg></button>
+    </div>
+  </div>
+  <div id="chargeRing" class="hide"><i></i></div>
+
+  <div id="popups"></div>
+  <div id="flash"></div>
+
+  <!-- ===================== TUTORIAL ===================== -->
+  <div id="tutorial" class="hide">
+    <svg class="ic tut-hand" id="tutHand"><use href="#i-hand"/></svg>
+    <div class="tut-ring hide" id="tutRing"></div>
+    <div class="tut-card">
+      <div class="tut-head"><span class="tut-title" data-i18n="tutTitle">TRAINING</span><span class="tut-dots" id="tutDots"></span></div>
+      <div class="tut-text" id="tutText"></div>
+      <button class="btn btn-ghost btn-skip" id="btnTutSkip" data-i18n="tutSkip">Skip</button>
+    </div>
+  </div>
+  <div id="tutDone" class="screen modal-screen">
+    <div class="panel">
+      <div class="marquee-bar" data-i18n="tutTitle">TRAINING</div>
+      <svg class="ic big-ic"><use href="#i-check"/></svg>
+      <div class="panel-text" data-i18n="tutDone">Great!</div>
+      <button class="btn btn-go" id="btnTutGo" data-i18n="tutGo">PLAY</button>
+    </div>
+  </div>
+
+  <!-- ===================== MENU: the cabinet ===================== -->
+  <div id="menu" class="screen">
+    <div class="menu-bg"></div>
+    <div class="menu-top">
+      <div class="lcd coin-plate"><svg class="ic"><use href="#i-coin"/></svg><b id="menuCoins">0</b></div>
+      <div class="lcd hi-plate"><small data-i18n="hiScore">HI-SCORE</small><b id="menuScore">0</b></div>
+      <div class="menu-top-right">
+        <button class="round-btn" id="btnHow" aria-label="how to play"><svg class="ic"><use href="#i-help"/></svg></button>
+        <button class="round-btn" id="btnSettings" aria-label="settings"><svg class="ic"><use href="#i-gear"/></svg></button>
+      </div>
+    </div>
+    <div class="menu-sign">
+      <div class="marquee big">
+        <span class="mq-top">МАСТЕР</span>
+        <span class="mq-bot">УДАРА</span>
+      </div>
+    </div>
+    <div class="deck">
+      <div class="deck-side">
+        <button class="key" id="btnShop"><svg class="ic"><use href="#i-glove"/></svg><span data-i18n="shop">Shop</span></button>
+        <button class="key" id="btnWheel"><svg class="ic"><use href="#i-wheel"/></svg><span data-i18n="wheel">Wheel</span><i class="badge hide" id="badgeWheel">!</i></button>
+        <button class="key" id="btnDaily"><svg class="ic"><use href="#i-gift"/></svg><span data-i18n="daily">Gift</span><i class="badge hide" id="badgeDaily">!</i></button>
+      </div>
+      <button class="btn-play" id="btnPlay">
+        <span class="play-ring"></span>
+        <span class="play-txt" data-i18n="play">START</span>
+        <span class="play-ticket"><span data-i18n="level">Level</span> <b id="menuLevel">1</b></span>
+      </button>
+      <div class="deck-side">
+        <button class="key" id="btnLevels"><svg class="ic"><use href="#i-map"/></svg><span data-i18n="levels">Levels</span></button>
+        <button class="key" id="btnBoard"><svg class="ic"><use href="#i-cup"/></svg><span data-i18n="leaders">Records</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== WIN ===================== -->
+  <div id="win" class="screen modal-screen">
+    <div class="panel win-panel">
+      <div class="marquee-bar neon-green" data-i18n="levelDone">KNOCKOUT!</div>
+      <div class="stars">
+        <svg class="ic star" id="st1"><use href="#i-star"/></svg>
+        <svg class="ic star big" id="st2"><use href="#i-star"/></svg>
+        <svg class="ic star" id="st3"><use href="#i-star"/></svg>
+      </div>
+      <div class="tickets">
+        <div class="ticket"><svg class="ic"><use href="#i-star"/></svg><b id="winScore">0</b><small data-i18n="points">points</small></div>
+        <div class="ticket gold"><svg class="ic"><use href="#i-coin"/></svg><b id="winCoins">0</b><small data-i18n="coins">coins</small></div>
+        <div class="ticket combo"><svg class="ic"><use href="#i-bolt"/></svg><b id="winCombo">x1</b><small data-i18n="bestCombo">best combo</small></div>
+      </div>
+      <button class="btn btn-ad" id="btnWinAd"><svg class="ic"><use href="#i-ad"/></svg><span class="ad-main" data-i18n="rewardDouble">Double the coins</span><span class="ad-sub" data-i18n="adWatch">Watch an ad</span></button>
+      <button class="btn btn-go" id="btnNext" data-i18n="next">NEXT</button>
+      <button class="btn btn-go hide" id="btnWinFinish" data-i18n="finishBtn">FINISH</button>
+      <button class="btn btn-ghost" id="btnWinMenu" data-i18n="menu">Menu</button>
+    </div>
+  </div>
+
+  <!-- ===================== LOSE ===================== -->
+  <div id="lose" class="screen modal-screen">
+    <div class="panel lose-panel">
+      <div class="marquee-bar neon-red" data-i18n="levelFail">GAME OVER</div>
+      <div class="lose-reason" id="loseReason"></div>
+      <button class="btn btn-ad" id="btnLoseAd"><svg class="ic"><use href="#i-ad"/></svg><span class="ad-main" id="loseAdText" data-i18n="rewardContinue">+5 punches</span><span class="ad-sub" data-i18n="adWatch">Watch an ad</span></button>
+      <div class="lose-hint hide" id="skipHint" data-i18n="skipHint">Stuck?</div>
+      <button class="btn btn-ad btn-skip hide" id="btnSkipAd"><svg class="ic"><use href="#i-ad"/></svg><span class="ad-main" data-i18n="rewardSkip">Skip the level</span><span class="ad-sub" data-i18n="adWatch">Watch an ad</span></button>
+      <button class="btn btn-go" id="btnRetry" data-i18n="again">RETRY</button>
+      <button class="btn btn-ghost" id="btnLoseMenu" data-i18n="menu">Menu</button>
+    </div>
+  </div>
+
+  <!-- ===================== GAME COMPLETE ===================== -->
+  <div id="finish" class="screen modal-screen">
+    <div class="panel">
+      <div class="marquee-bar" data-i18n="finishTitle">GAME COMPLETE!</div>
+      <svg class="ic big-ic"><use href="#i-cup"/></svg>
+      <div class="panel-text" data-i18n="finishText">...</div>
+      <div class="tickets">
+        <div class="ticket"><svg class="ic"><use href="#i-star"/></svg><b id="finishScore">0</b><small data-i18n="points">points</small></div>
+        <div class="ticket gold"><svg class="ic"><use href="#i-coin"/></svg><b id="finishCoins">0</b><small data-i18n="coins">coins</small></div>
+      </div>
+      <button class="btn btn-go" id="btnFinishReplay" data-i18n="playAgain">PLAY AGAIN</button>
+      <button class="btn btn-ghost" id="btnFinishMenu" data-i18n="menu">Menu</button>
+    </div>
+  </div>
+
+  <!-- ===================== PAUSE ===================== -->
+  <div id="pause" class="screen modal-screen">
+    <div class="panel">
+      <div class="marquee-bar" data-i18n="paused">PAUSED</div>
+      <button class="btn btn-go" id="btnResume" data-i18n="resume">RESUME</button>
+      <button class="btn btn-blue" id="btnRestart" data-i18n="restart">Restart level</button>
+      <div class="row2">
+        <button class="btn btn-ghost sound-toggle" id="btnSoundP" data-i18n="soundOn">Sound</button>
+        <button class="btn btn-ghost music-toggle" id="btnMusicP" data-i18n="musicOn">Music</button>
+      </div>
+      <div class="row2">
+        <button class="btn btn-ghost" id="btnPauseHow" data-i18n="howTo">How to play</button>
+        <button class="btn btn-ghost" id="btnPauseMenu" data-i18n="menu">Menu</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== SHOP ===================== -->
+  <div id="shop" class="screen sheet-screen">
+    <div class="sheet">
+      <div class="sheet-head">
+        <div class="sheet-title" data-i18n="shop">Shop</div>
+        <button class="btn btn-ad btn-mini" id="btnShopCoins"><svg class="ic"><use href="#i-ad"/></svg><span id="shopCoinsTxt">+200</span></button>
+        <div class="lcd coin-plate"><svg class="ic"><use href="#i-coin"/></svg><b id="shopCoins">0</b></div>
+        <button class="x-btn" id="btnShopClose" aria-label="close"><svg class="ic"><use href="#i-close"/></svg></button>
+      </div>
+      <div class="shop-tabs" id="shopTabs"></div>
+      <div class="shop-body">
+        <div class="shop-preview">
+          <canvas id="previewCanvas"></canvas>
+          <div class="pv-info">
+            <div class="pv-rar" id="pvRar"></div>
+            <div class="pv-name" id="pvName"></div>
+            <button class="btn btn-go" id="pvAction"></button>
+            <div class="pv-note" id="pvNote"></div>
+          </div>
+        </div>
+        <div class="shop-grid" id="shopGrid"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== DAILY GIFT ===================== -->
+  <div id="daily" class="screen modal-screen">
+    <div class="panel wide">
+      <div class="marquee-bar" data-i18n="dailyTitle">DAILY GIFT</div>
+      <button class="x-btn corner" id="btnDailyClose" aria-label="close"><svg class="ic"><use href="#i-close"/></svg></button>
+      <div class="daily-grid" id="dailyGrid"></div>
+      <div class="daily-actions" id="dailyActions">
+        <button class="btn btn-go" id="btnDailyClaim" data-i18n="dailyClaim">Claim</button>
+        <button class="btn btn-ad" id="btnDailyX2"><svg class="ic"><use href="#i-ad"/></svg><span class="ad-main" data-i18n="dailyX2">x2 for an ad</span></button>
+      </div>
+      <div class="panel-note" id="dailyNote"></div>
+    </div>
+  </div>
+
+  <!-- ===================== WHEEL ===================== -->
+  <div id="wheel" class="screen modal-screen">
+    <div class="panel wide wheel-panel">
+      <div class="marquee-bar" data-i18n="wheelTitle">WHEEL OF FORTUNE</div>
+      <button class="x-btn corner" id="btnWheelClose" aria-label="close"><svg class="ic"><use href="#i-close"/></svg></button>
+      <div class="wheel-wrap">
+        <canvas id="wheelCanvas" width="520" height="520"></canvas>
+        <div class="wheel-pin"></div>
+        <div class="wheel-result hide" id="wheelResult"></div>
+      </div>
+      <div class="wheel-side">
+        <button class="btn btn-go" id="btnSpinFree" data-i18n="wheelFree">Free spin</button>
+        <button class="btn btn-ad" id="btnSpinAd"><svg class="ic"><use href="#i-ad"/></svg><span class="ad-main" id="spinAdText"></span></button>
+        <div class="panel-note" id="wheelNote"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== LEVELS ===================== -->
+  <div id="levels" class="screen modal-screen">
+    <div class="panel wide">
+      <div class="marquee-bar" data-i18n="levels">LEVELS</div>
+      <button class="x-btn corner" id="btnLevelsClose" aria-label="close"><svg class="ic"><use href="#i-close"/></svg></button>
+      <div class="levels-grid" id="levelsGrid"></div>
+    </div>
+  </div>
+
+  <!-- ===================== RECORDS ===================== -->
+  <div id="board" class="screen modal-screen">
+    <div class="panel wide">
+      <div class="marquee-bar" data-i18n="leaders">RECORDS</div>
+      <button class="x-btn corner" id="btnBoardClose" aria-label="close"><svg class="ic"><use href="#i-close"/></svg></button>
+      <div class="board-list" id="boardList"></div>
+      <div class="panel-note" id="boardNote"></div>
+      <button class="btn btn-blue hide" id="btnBoardAuth" data-i18n="authBtn">Sign in</button>
+    </div>
+  </div>
+
+  <!-- ===================== SETTINGS ===================== -->
+  <div id="settings" class="screen modal-screen">
+    <div class="panel">
+      <div class="marquee-bar" data-i18n="settings">SETTINGS</div>
+      <button class="x-btn corner" id="btnSettingsClose" aria-label="close"><svg class="ic"><use href="#i-close"/></svg></button>
+      <div class="set-cap" data-i18n="quality">Graphics</div>
+      <div class="toggle-row">
+        <button class="btn btn-toggle" data-q="low" data-i18n="qLow">Low</button>
+        <button class="btn btn-toggle" data-q="mid" data-i18n="qMid">Medium</button>
+        <button class="btn btn-toggle" data-q="high" data-i18n="qHigh">High</button>
+      </div>
+      <div class="row2">
+        <button class="btn btn-ghost sound-toggle" id="btnSound" data-i18n="soundOn">Sound</button>
+        <button class="btn btn-ghost music-toggle" id="btnMusic" data-i18n="musicOn">Music</button>
+      </div>
+      <button class="btn btn-blue" id="btnSetHow" data-i18n="howTo">How to play</button>
+      <div class="panel-note" id="versionNote"></div>
+      <div class="panel-note credits" data-i18n="credits">Music: JDSherbert (jdsherbert.itch.io)</div>
+    </div>
+  </div>
+
+  <!-- ===================== LOAD ERROR (cloud save) ===================== -->
+  <div id="loadError" class="screen modal-screen">
+    <div class="panel">
+      <div class="marquee-bar neon-red" data-i18n="loadFail">Could not load</div>
+      <div class="panel-text" data-i18n="loadFailText">...</div>
+      <button class="btn btn-go" id="btnLoadRetry" data-i18n="retry">RETRY</button>
+      <button class="btn btn-ghost" id="btnLoadOffline" data-i18n="playOffline">Play without saving</button>
+    </div>
+  </div>
+
+  <!-- ===================== AD OVERLAY ===================== -->
+  <div id="adWait" class="screen modal-screen">
+    <div class="overlay-inner">
+      <svg class="ic loader-glove"><use href="#i-ad"/></svg>
+      <div data-i18n="adLoading">Ad is loading...</div>
+    </div>
+  </div>
+
+  <!-- ===================== SYSTEM PAUSE ===================== -->
+  <div id="blurPause" class="screen modal-screen">
+    <div class="overlay-inner">
+      <svg class="ic pause-ic"><use href="#i-pause"/></svg>
+      <div class="pause-title" data-i18n="paused">PAUSED</div>
+      <div class="pause-hint" data-i18n="pauseAuto">The game resumes when you come back</div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="js/game.min.js"></script>
+</body>
+</html>

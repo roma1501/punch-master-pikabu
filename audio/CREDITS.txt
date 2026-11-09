@@ -1,0 +1,20 @@
+Punch Master - audio credits
+
+MUSIC (menu and gameplay tracks, OGG)
+  "Cosmic Star", "Tiger Temple Trial", "Junction Jazz" from the
+  JDSherbert Ambiences Music Pack [FREE]
+  Music by JDSherbert - https://jdsherbert.itch.io
+  License: JDSherbert Asset License (Copyright 2025 JDSherbert): free and commercial use
+  in games, editing allowed, no resale or redistribution of the raw files, credit required
+  (this file and the Settings screen of the game), no AI/ML training use.
+  Files: music_menu.ogg (Cosmic Star), music_game_1.ogg (Tiger Temple Trial),
+  music_game_2.ogg (Junction Jazz). Unmodified.
+
+SOUND EFFECTS (WAV)
+  Taken from the project's Sound Pack (the Lory Engine sound library, folders UI, Combat and
+  Gore, Retro, Machines, Materials, Other, Musical Effects, Items). The robot hit / break
+  sounds (grunt_1..6, clang_*, explode_*, combo, charge_full, swing_heavy) were made from
+  Retro/hurt, Retro/power_down, Retro/power_down_2, Retro/undesired_effect, Retro/explosion_*,
+  Retro/coin_4, Machines/hydraulic_down, Machines/hydraulic_up, Materials/metal_blunt_tap,
+  Materials/metal_clang, Materials/glass_ping_small and Other/whoosh_2, downmixed to mono and
+  trimmed. The original human "grunt" voices of the base game were removed.

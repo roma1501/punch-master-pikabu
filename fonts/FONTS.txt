@@ -1,0 +1,6 @@
+Fonts used by Punch Master (both SIL Open Font License 1.1, texts in OFL-*.txt):
+- Rubik (variable, 300-900) - Latin + Cyrillic subset, rubik-latin-cyrillic.woff2
+  Source: https://github.com/google/fonts/tree/main/ofl/rubik
+- Bungee (Regular) - Latin subset, bungee-latin.woff2
+  Source: https://github.com/google/fonts/tree/main/ofl/bungee
+Subsetted and converted to WOFF2 with fontTools (pyftsubset); glyph shapes unchanged.
